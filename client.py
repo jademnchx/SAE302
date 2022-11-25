@@ -9,8 +9,10 @@ class Client():
     def __init__(self, host, port):
         self.host = host
         self.port = port
+        
+    def connect(self, host, port):
         self.socket = socket.socket()
-        self.socket.connect((self.host, self.port))
+        self.socket.connect((host, port))
         print ("Connected to server")
         
     def action(self):
@@ -19,7 +21,7 @@ class Client():
         data = ''
         while msg != BYE and data != BYE :
             msg = input('Enter a message to send: ')
-            self.send(msg.encode())
+            self.socket.send(msg.encode())
             print ("message sent")
             data = self.socket.recv(1024).decode()
             print ("Received from server: ", data)
@@ -30,4 +32,5 @@ class Client():
             print ("Connection closed")
 
 if __name__ == '__main__':
+    Client.connect()
     Client.action()
