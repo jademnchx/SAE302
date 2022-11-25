@@ -1,5 +1,4 @@
 import socket
-
 BYE = 'bye'
 EXIT = 'exit'
 msg = ''
