@@ -1,22 +1,17 @@
-import socket, threading, sys
+import socket
 
-class Connect():
-    
+BYE = 'bye'
+EXIT = 'exit'
+msg = ''
+
+if __name__ == '__main__':
     client_socket = socket.socket()
     client_socket.connect(('127.0.0.1', 10000))
     print ("Connected to server")
-    
-    def __init__(self):
-        pass
-    
-    def send (self, msg):
-        self.client_socket.send(msg.encode())
-        print ("Message sent")
-        
-    def receive (self):
-        data = self.client_socket.recv(1024).decode()
-        print ("Message received")
-        return data
-        
-if __name__ == '__main__':
-    Connect
+    while msg != BYE and msg != EXIT:
+        msg = input('Enter a message to send: ')
+        client_socket.send(msg.encode())
+        data = client_socket.recv(1024).decode()
+        print ("Received from server: ", data)
+    client_socket.close()
+    print ("Connection closed")

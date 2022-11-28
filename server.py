@@ -1,20 +1,19 @@
 import socket
-
-BYE = 'bye'
-EXIT = 'exit'
+REST = 'reset'
+BYE = 'disconnect'
+EXIT = 'kill'
 msg = ''
-data = ''
 
 if __name__ == '__main__':
     server_socket = socket.socket()
     server_socket.bind(('127.0.0.1', 10000))
     print ("Server started")
-    server_socket.listen(1)
+    server_socket.listen(2)
         
-    while msg != EXIT and data != EXIT :
+    while msg != EXIT :
         conn, address = server_socket.accept()
         
-        while msg != BYE and data != BYE and msg != EXIT and data != EXIT:
+        while msg != BYE and msg != EXIT :
             data = conn.recv(1024).decode()
             print ("Received from client: ", data)
             
