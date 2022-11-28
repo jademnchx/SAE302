@@ -17,13 +17,6 @@ class Connect():
         data = self.client_socket.recv(1024).decode()
         print ("Message received")
         return data
-    
-    def __receive_thread(self):
-        pass
-    
-    def __connect_thread(self):
-        pass
-        
         
 if __name__ == '__main__':
-    pass
+    Connect

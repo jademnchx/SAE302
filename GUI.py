@@ -6,12 +6,15 @@ class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
         
-        
+        # Initialisation
         widget = QWidget()
         self.setCentralWidget(widget)
         
         grid = QGridLayout()
         widget.setLayout(grid)
+        
+        self.setWindowTitle("Test")
+        self.resize(250,250)
         
         # Blocks
         test = QComboBox()
@@ -21,14 +24,13 @@ class MainWindow(QMainWindow):
         self.__test = test
         
         # ComboBox
-        test.addItem("C -> K")
-        test.addItem("K -> C")
+        test.addItem("CPU")
+        test.addItem("RAM")
         
         # Placement blocks
         grid.addWidget(self.__test, 0, 0)
         
-        # Actions blocks
-        self.setWindowTitle("One")
+        
         
 if __name__ == '__main__':
     # Create the Qt Application

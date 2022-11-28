@@ -5,7 +5,6 @@ EXIT = 'exit'
 msg = ''
 data = ''
 
-
 if __name__ == '__main__':
     server_socket = socket.socket()
     server_socket.bind(('127.0.0.1', 10000))
@@ -16,7 +15,7 @@ if __name__ == '__main__':
     while msg != BYE and data != BYE and msg != EXIT and data != EXIT:
         data = conn.recv(1024).decode()
         print ("Received from client: ", data)
-        
+            
         if msg == BYE :
             conn.send(BYE.encode())
         else :
