@@ -1,17 +1,13 @@
 import socket
 
-BYE = 'bye'
-EXIT = 'exit'
-msg = ''
+s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+s.connect(("", 1111))
 
-if __name__ == '__main__':
-    client_socket = socket.socket()
-    client_socket.connect(('127.0.0.1', 10000))
-    print ("Connected to server")
-    while msg != BYE and msg != EXIT:
-        msg = input('Enter a message to send: ')
-        client_socket.send(msg.encode())
-        data = client_socket.recv(1024).decode()
-        print ("Received from server: ", data)
-    client_socket.close()
-    print ("Connection closed")
+print("Le nom du fichier que vous voulez récupérer:")
+file_name = input(">> ") # utilisez raw_input() pour les anciennes versions python
+s.send(file_name.encode())
+file_name = 'data/%s' % (file_name,)
+r = s.recv(9999999)
+with open(file_name,'wb') as _file:
+    _file.write(r)
+print("Le fichier a été correctement copié dans : %s." % file_name)

@@ -17,20 +17,31 @@ class MainWindow(QMainWindow):
         self.resize(250,250)
         
         # Blocks
-        test = QComboBox()
-        
-                
+        add = QPushButton('Add')
+        cmd = QComboBox()
+    
         # Constructeur
-        self.__test = test
+        self.__cmd = cmd
+        self.__add = add
         
         # ComboBox
-        test.addItem("CPU")
-        test.addItem("RAM")
+        cmd.addItem("disconect")
+        cmd.addItem("connect info")
+        cmd.addItem("kill")
+        cmd.addItem("reset")
         
         # Placement blocks
-        grid.addWidget(self.__test, 0, 0)
+        grid.addWidget(self.__cmd, 0, 0)
+        grid.addWidget(self.__add, 0, 1)
         
+        # Actions blocks
+        add.clicked.connect(self.__actionadd)
         
+    def __actionadd(self):
+        print("Add")
+        
+    def __actiontest(self):
+        print("test")
         
 if __name__ == '__main__':
     # Create the Qt Application
