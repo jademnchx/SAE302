@@ -5,9 +5,7 @@ class Serveur() :
         msg = ""
         while msg != "kill" :
             server_socket = socket.socket()
-            server_socket.bind(('127.0.0.1', 10000))
-            print ("Server started")
-            server_socket.listen(10)
+            server_socket.bind(("localhost", 10000))
             while msg != "kill" and msg != "reset":
                 conn = server_socket.accept()
                 while msg != "kill"  and msg != "reset" and msg != "disconect":

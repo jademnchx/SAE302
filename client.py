@@ -36,4 +36,6 @@ class Client():
         print("Socket is closed")
         
 if __name__ == '__main__':
-    pass
+    Client.connect()
+    Client.send()
+    
