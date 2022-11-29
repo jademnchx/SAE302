@@ -9,19 +9,16 @@ class Client():
     def is_connected(self):
         print('Socket is connected')
         return(self.__sock != None)
-        
     
-    def connect(self):
-        threading.Thread(target = self.__connect)
-        
-    def __connect(self):
+    
+    def connect():
         sock = socket.socket()
-        sock.connect(self.__host, self.__port)
+        sock.bind(('localhost', 10000))
+        sock.listen(5)
+        conn, address = sock.accept()
+        print("Socket is connected")
         
-    def send(self):
-        threading.Thread(target = self.__send)
-        
-    def __send(self, msg):
+    def send(self, msg):
         if self.is_connected():
             sock = socket.socket()
             sock.send(msg)
@@ -37,5 +34,6 @@ class Client():
         
 if __name__ == '__main__':
     Client.connect()
+
     Client.send()
     
