@@ -1,7 +1,7 @@
 
 def server():
-    host = input ("Enter the host : ")
-    port = input ("Enter the port : ")
+    host = 'localhost'
+    port = 10000
     heirm = server(host, port)
     heirm.connect()
     rep=heirm.send('connected')

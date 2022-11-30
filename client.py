@@ -1,6 +1,7 @@
-import socket
+import socket, threading
 
 class Client():
+    
     host = 'localhost'
     port = 10000
     
@@ -10,28 +11,35 @@ class Client():
         self.__sock = None
         
     def is_connected(self):
-        print('Socket is connected')
         return(self.__sock != None)
     
     def connected(self):
-        sock = socket.socket()
-        sock.connect(self.__host, self.__port)
-        print("Socket is connected")
+        threading.Thread(target=self.__connected).start()
+    
+    def __connected(self):
+        try :
+            self.__sock = socket.socket()
+            self.__sock.connect((self.__host, self.__port))
+        except ConnectionRefusedError :
+            print("error __connected")
+        else :
+            print("win __connected")
         
-    def send(self, msg):
+    def send(self):
+        threading.Thread(target=self.__send).start()
+    
+    def __send(self, msg):
         if self.is_connected():
             sock = socket.socket()
             sock.send(msg)
             msg = sock.recv (1024).decode()
             print(msg)
         else:
-            print("Socket is not connected")
+            print("error __send")
     
     def close(self):
         sock = socket.socket()
-        sock.close()
-        print("Socket is closed")
-
-if __name__ == '__main__':
-    Client.connected()
-    Client.send()
+        if sock.close():
+            print("win close")
+        else:
+            print("error close")
