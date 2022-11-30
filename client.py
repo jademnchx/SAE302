@@ -9,8 +9,7 @@ class Client():
     def is_connected(self):
         print('Socket is connected')
         return(self.__sock != None)
-    
-    
+
     def connect():
         sock = socket.socket()
         sock.bind(('localhost', 10000))
