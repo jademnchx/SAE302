@@ -17,29 +17,20 @@ class Client():
         threading.Thread(target=self.__connected).start()
     
     def __connected(self):
-        try :
-            self.__sock = socket.socket()
-            self.__sock.connect((self.__host, self.__port))
-        except ConnectionRefusedError :
-            print("error __connected")
-        else :
-            print("win __connected")
+        self.__sock = socket.socket()
+        self.__sock.connect((self.__host, self.__port))
+        self.__sock.send('connected')
         
     def send(self):
         threading.Thread(target=self.__send).start()
     
     def __send(self, msg):
         if self.is_connected():
-            sock = socket.socket()
-            sock.send(msg)
-            msg = sock.recv (1024).decode()
+            self.__sock.send(msg)
+            msg = self.__sock.recv (1024).decode()
             print(msg)
         else:
             print("error __send")
     
     def close(self):
-        sock = socket.socket()
-        if sock.close():
-            print("win close")
-        else:
-            print("error close")
+        self.__sock.close()

@@ -1,4 +1,5 @@
 
+from client import Client
 def server():
     host = 'localhost'
     port = 10000
