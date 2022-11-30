@@ -1,0 +1,3 @@
+cmd = "ls -la"
+ret = os.open(cmd)
+print(ret.read())
