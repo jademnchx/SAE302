@@ -7,7 +7,7 @@ def server():
     heirm = Client(host, port)
     heirm.connected()
     print ("Connected to server")
-    rep=heirm.send('error __send'.encode())
+    rep=heirm.send('error __send')
     if rep == 'Socket is connected':
         print ("Socket is not connected")
     else :
