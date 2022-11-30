@@ -19,14 +19,15 @@ class Client():
     def __connected(self):
         self.__sock = socket.socket()
         self.__sock.connect((self.__host, self.__port))
-        self.__sock.send('connected')
+        print("Connected to server")
+        self.__sock.send('connected'.encode())
         
     def send(self):
         threading.Thread(target=self.__send).start()
     
     def __send(self, msg):
         if self.is_connected():
-            self.__sock.send(msg)
+            self.__sock.send(msg.encode())
             msg = self.__sock.recv (1024).decode()
             print(msg)
         else:

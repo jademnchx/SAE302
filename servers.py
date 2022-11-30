@@ -6,6 +6,7 @@ def serveur():
     while msg != "kill" :
         server_socket = socket.socket()
         server_socket.bind(("localhost", 10000))
+        server_socket.listen(1)
         while msg != "kill" and msg != "reset":
             conn = server_socket.accept()
             while msg != "kill"  and msg != "reset" and msg != "disconect":
@@ -23,4 +24,4 @@ def serveur():
 # Coder les commande ici
 
 if __name__ == '__main__':
-    pass
+    serveur()
