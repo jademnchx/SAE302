@@ -9,7 +9,6 @@ def serveur():
         server_socket = socket.socket()
         server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
         server_socket.bind(("localhost", 15001))
-
         server_socket.listen(1)
         print('Server waiting for connection')
         while msg != "kill" and msg != "reset":
