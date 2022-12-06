@@ -44,8 +44,6 @@ if __name__=="__main__":
     else :
         host = sys.argv[1]
         port = int(sys.argv[2])
-        # création de l'objet client qui est aussi un thread
         client = Client(host,port)
-    #démarrage de la thread client
     client.start()
     client.join()

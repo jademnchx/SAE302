@@ -1,4 +1,4 @@
-import socket
+import socket, subprocess, os
 
 def serveur():
     msg = ""
@@ -24,12 +24,20 @@ def serveur():
                     msg = conn.recv(1024).decode()
                     print ("Received from client: ", msg)
                     conn.send(msg.encode())
-                conn.close()
-        print ("Connection closed")
+            conn.close()
+            print ("Connection closed")
         server_socket.close()
         print ("Server closed")
 
 # Coder les commande ici
+
+def cmd(self, cmd):
+    msg = ""
+    if msg == "IP":
+        cmd = "ipconfig"
+        p = subprocess.Popen(cmd,stdout = subprocess.PIPE, stderr=subprocess.PIPE, encoding='cp850', shell=True)
+        print (f"résultat commande : \n {p.stdout.read()}")
+        print (f"erreur commande : \n {p.stderr.read()}")
 
 if __name__ == '__main__':
     serveur()

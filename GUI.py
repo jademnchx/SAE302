@@ -1,6 +1,7 @@
 
 from PyQt5.QtWidgets import *
 import sys
+from servers import cmd
 
 class MainWindow(QMainWindow):
     def __init__(self):
@@ -18,16 +19,17 @@ class MainWindow(QMainWindow):
         
         # Blocks
         add = QPushButton('Add')
+        valid = QPushButton('OK')
         cmd = QComboBox()
         cmd2 = QComboBox()
         
         # Constructeur
         self.__cmd = cmd
-        self.__add = add
+        self.__valid = valid
         self.__cmd2 = cmd2
-        
+        self.__add = add
         # ComboBox
-        cmd.addItem("disconect")
+        cmd.addItem("disconnect")
         cmd.addItem("connect info")
         cmd.addItem("kill")
         cmd.addItem("reset")
@@ -39,18 +41,21 @@ class MainWindow(QMainWindow):
         
         # Placement blocks
         grid.addWidget(self.__cmd, 0, 0)
-        grid.addWidget(self.__add, 0, 1)
+        grid.addWidget(self.__valid, 0, 1)
         grid.addWidget(self.__cmd2, 2, 0)
         grid.addWidget(self.__add, 2, 1)
         
         # Actions blocks
         add.clicked.connect(self.__actionadd)
+        valid.clicked.connect(self.__actionvalid)
         
     def __actionadd(self):
         print("Add")
+    
+    def __actionvalid(self):
+        cmd()
+        print("Valid")
         
-    def __actiontest(self):
-        print("test")
         
 if __name__ == '__main__':
     # Create the Qt Application
