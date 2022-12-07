@@ -28,6 +28,7 @@ class MainWindow(QMainWindow):
         self.__valid = valid
         self.__cmd2 = cmd2
         self.__add = add
+        
         # ComboBox
         cmd.addItem("disconnect")
         cmd.addItem("connect info")

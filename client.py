@@ -4,13 +4,13 @@ class Client(threading.Thread):
     
     host = 'localhost'
     port = 10000
-    
+
     def __init__(self, host, port):
         super().__init__()
         self.__host = host
         self.__port = port
         self.__sock = socket.socket()
-    
+
     def __connect(self) -> int:
         try :
             self.__sock.connect((self.__host,self.__port))
@@ -32,7 +32,6 @@ class Client(threading.Thread):
             msg = self.__sock.recv(1024).decode()
             print(msg)
         self.__sock.close()
-
 
     def run(self):
         if (self.__connect() ==0):
