@@ -1,4 +1,5 @@
-import socket, subprocess, psutil
+import socket, psutil, sys
+
 class Server:
         
     def __init__(self):
@@ -26,24 +27,49 @@ class Server:
                 else :
                     while msg != "kill" and msg != "reset" and msg != "disconnect":
                         msg = conn.recv(1024).decode()
-                        print ("Received from client: ", msg)
-                        rep = self.cmds(msg)
-                        conn.send(rep.encode())
+                        if msg == "cpu":
+                            cpu = str(psutil.cpu_percent())
+                            conn.send(cpu.encode())
+                            return cpu
+                        
+                        elif msg == "os" :
+                            os = str(sys.platform)
+                            conn.send(os.encode())
+                            return os
+                        
+                        elif msg == "memory":
+                            psutil.virtual_memory()
+                            memory =psutil.virtual_memory().total
+                            conn.send(memory.encode())
+                            return memory
+                            
+                        elif msg == "ram":
+                            ram = str(psutil.disk_usage('/'))
+                            conn.send(ram.encode())
+                            return ram
+                        
+                        elif msg == "ip":
+                            ip = socket.gethostbyname(socket.gethostname())
+                            conn.send(ip.encode())
+                            return ip
+                        
+                        elif msg == "name":
+                            name = socket.gethostname()
+                            conn.send(name.encode())
+                            return name
+                            
+                        elif msg == "python":
+                            python = str(sys.version)
+                            conn.send(python.encode())
+                            return python
+                            
+                        else :
+                            conn.send(msg.encode())
+                            
                     conn.close()
-        print ("Connection closed")
+                    print ("Connection closed")
         server_socket.close()
         print ("Server closed")
-
-    # Coder les commande ici
-
-    def cmds(self, msg):
-        if msg == "ipconfig" or msg == "hostname" or msg == "set os" or msg == "set processor_identifier":
-            p = subprocess.Popen(msg, stdout = subprocess.PIPE, stderr=subprocess.STDOUT, encoding='cp850', shell=True)
-            rep = p.stdout.read()
-            print("rep=",rep)
-            return rep
-        else :
-            return "Commande inconnue"
 
 if __name__ == '__main__':
     serv = Server()
