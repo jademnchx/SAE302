@@ -1,4 +1,4 @@
-import socket, subprocess, os
+import socket, subprocess, psutil
 class Server:
         
     def __init__(self):
@@ -37,7 +37,7 @@ class Server:
     # Coder les commande ici
 
     def cmds(self, msg):
-        if msg == "ipconfig" or msg == "hostname" :
+        if msg == "ipconfig" or msg == "hostname" or msg == "set os" or msg == "set processor_identifier":
             p = subprocess.Popen(msg, stdout = subprocess.PIPE, stderr=subprocess.STDOUT, encoding='cp850', shell=True)
             rep = p.stdout.read()
             print("rep=",rep)

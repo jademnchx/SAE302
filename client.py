@@ -31,11 +31,19 @@ class Client(threading.Thread):
             self.__sock.send(msg.encode())
             msg = self.__sock.recv(1024).decode()
             print(msg)
-        self.__sock.close()
+        else :
+            self.__sock.close()
 
     def run(self):
-        if (self.__connect() ==0):
-            self.__dialogue()
+        try :
+            if (self.__connect() ==0):
+                self.__dialogue()
+        except KeyboardInterrupt:
+            print ("KeyboardInterrupt")
+            self.__sock.close()
+        except ConnectionAbortedError:
+            print ("Connection abandonnée")
+            self.__sock.close()
 
 if __name__=="__main__":
     if len(sys.argv) < 3:

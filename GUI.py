@@ -11,6 +11,7 @@ class MainWindow(QMainWindow):
         self.setCentralWidget(widget)
         self.setWindowTitle("Test")
         self.resize(400, 300)
+        
         grid = QGridLayout()
         widget.setLayout(grid)
         self.textEdit = QTextEdit()
@@ -18,15 +19,18 @@ class MainWindow(QMainWindow):
 
         # Blocks
         block1 = QGroupBox("Commande")
+        block1.setLayout(QGridLayout())
         cmd1 = QComboBox()
         cmd2 = QComboBox()
         cmd3 = QComboBox()
-
+        
         # Constructeur
+        self.block1 = block1
         self.__cmd1 = cmd1
         self.__cmd2 = cmd2
         self.__cmd3 = cmd3
 
+        
          # ComboBox
         cmd1.addItem("disconnect")
         cmd1.addItem("connect info")
@@ -46,10 +50,12 @@ class MainWindow(QMainWindow):
         cmd3.addItem("ping 192.157.65.78")       
 
         # Placement blocks
-        grid.addWidget(self.__cmd1, 0, 0)
-        grid.addWidget(self.__cmd2, 2, 0)
-        grid.addWidget(self.__cmd3, 4, 0)
+        grid.addWidget(block1, 0, 0, 3, 2)
         grid.addWidget(self.textEdit, 5, 0)
+        
+        block1.layout().addWidget(cmd1, 0, 0)
+        block1.layout().addWidget(cmd2, 1, 0)
+        block1.layout().addWidget(cmd3, 2, 0)
         
         # Actions blocks
         self.__cmd1.currentIndexChanged.connect(self.cmd1_Clicked)
