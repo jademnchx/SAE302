@@ -43,6 +43,10 @@ class Client(threading.Thread):
             print ("Connection abandonnée")
             self.__sock.close()
 
+    def __disconnect(conn):
+        conn.close()
+        print ("Connection closed")
+
 if __name__=="__main__":
     if len(sys.argv) < 3:
         client = Client("127.0.0.1",15001)

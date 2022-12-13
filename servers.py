@@ -1,6 +1,6 @@
 import socket, psutil, sys
 
-class Server:
+class Server():
         
     def __init__(self):
         pass
