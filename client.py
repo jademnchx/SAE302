@@ -3,7 +3,7 @@ import socket, threading, sys
 class Client(threading.Thread):
     
     host = 'localhost'
-    port = 10000
+    port = 10958
 
     def __init__(self, host, port):
         super().__init__()
@@ -21,7 +21,6 @@ class Client(threading.Thread):
             print ("connection error")
             return -1
         else :
-            print ("connection done")
             return 0
         
     def __dialogue(self):
@@ -30,7 +29,6 @@ class Client(threading.Thread):
             msg = input("client: ")
             self.__sock.send(msg.encode())
             msg = self.__sock.recv(1024).decode()
-            print(msg)
         else :
             self.__sock.close()
 

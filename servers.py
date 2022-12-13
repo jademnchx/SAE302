@@ -30,42 +30,41 @@ class Server:
                         if msg == "cpu":
                             cpu = str(psutil.cpu_percent())
                             conn.send(cpu.encode())
-                            return cpu
-                        
+                            print('cpu : ', cpu)
+
                         elif msg == "os" :
                             os = str(sys.platform)
                             conn.send(os.encode())
-                            return os
+                            print('os : ', os)
                         
                         elif msg == "memory":
-                            psutil.virtual_memory()
-                            memory =psutil.virtual_memory().total
+                            memory = str(psutil.virtual_memory().total)
                             conn.send(memory.encode())
-                            return memory
+                            print ('memory : ', memory)
                             
                         elif msg == "ram":
                             ram = str(psutil.disk_usage('/'))
                             conn.send(ram.encode())
-                            return ram
+                            print('ram : ', ram)
                         
                         elif msg == "ip":
                             ip = socket.gethostbyname(socket.gethostname())
                             conn.send(ip.encode())
-                            return ip
+                            print('ip : ', ip)
                         
                         elif msg == "name":
                             name = socket.gethostname()
                             conn.send(name.encode())
-                            return name
+                            print('name : ', name)
                             
                         elif msg == "python":
                             python = str(sys.version)
                             conn.send(python.encode())
-                            return python
+                            print('version : ', python)
                             
                         else :
                             conn.send(msg.encode())
-                            
+                            print('Receive from client : ', msg)
                     conn.close()
                     print ("Connection closed")
         server_socket.close()
