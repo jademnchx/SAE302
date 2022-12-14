@@ -125,19 +125,13 @@ class MainWindow(QMainWindow):
         
 
     def __kill_Clicked(self):
-        self.histo.append("kill")
         Server.serveur(self)
-        print ("kill success")
+        self.histo.append("kill")
         
 
     def __start_Clicked(self):
-        self.histo.append("start")
         Server.serveur(self)
-        
-        
-        
-
-
+        self.histo.append("start")
 
 if __name__ == '__main__':
     '''Create the Qt Application'''
