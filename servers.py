@@ -5,8 +5,7 @@ class Server():
     def __init__(self):
         pass
         
-    def serveur(self):
-        msg = ""
+    def serveur(self, msg):
         conn = None
         server_socket = None
         while msg != "kill" :

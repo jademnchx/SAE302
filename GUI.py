@@ -27,9 +27,9 @@ class MainWindow(QMainWindow):
         block2 = QGroupBox("Client")
         block2.setLayout(QGridLayout())
         connect = QPushButton("Connect")
-        disconnect = QPushButton("Disconnect")
-        reset = QPushButton("Reset")
-        kill = QPushButton("Kill")
+        com = QComboBox()
+        com.addItems(["kill", "reset", "disconnect"])
+        comm = QPushButton("Envoyer")
 
         block3 = QGroupBox("Serveur")
         block3.setLayout(QGridLayout())
@@ -74,9 +74,8 @@ class MainWindow(QMainWindow):
         block1.layout().addWidget(cmd, 1, 0)
         block1.layout().addWidget(result, 1, 1)
         block2.layout().addWidget(connect, 0, 0)
-        block2.layout().addWidget(disconnect, 0, 1)
-        block2.layout().addWidget(reset, 1, 0)
-        block2.layout().addWidget(kill, 1, 1)
+        block2.layout().addWidget(com, 2, 0)
+        block2.layout().addWidget(comm, 2, 1)
         block3.layout().addWidget(start, 0, 0)
         block4.layout().addWidget(histo, 0, 0)
         block5.layout().addWidget(res, 0, 0)
@@ -89,9 +88,6 @@ class MainWindow(QMainWindow):
         cmd.currentIndexChanged.connect(self.__cmd_Clicked)
         lire.clicked.connect(self.__lire_Clicked)
         connect.clicked.connect(self.__connect_Clicked)
-        disconnect.clicked.connect(self.__disconnect_Clicked)
-        reset.clicked.connect(self.__reset_Clicked)
-        kill.clicked.connect(self.__kill_Clicked)
         start.clicked.connect(self.__start_Clicked)
 
 
@@ -119,24 +115,27 @@ class MainWindow(QMainWindow):
         self.histo.append(f"connect : {ip}")
 
     def __disconnect_Clicked(self):
-        Server()
+        Server.serveur(self)
         self.histo.append("disconnect")
         
 
     def __reset_Clicked(self):
-        Server()
+        Server.serveur(self)
         self.histo.append("reset")
         
 
     def __kill_Clicked(self):
         self.histo.append("kill")
-        self.res.append(f"cmd : {self.cmd.currentText()}")
+        Server.serveur(self)
         print ("kill success")
         
 
     def __start_Clicked(self):
         self.histo.append("start")
-        Server()
+        Server.serveur(self)
+        
+        
+        
 
 
 
