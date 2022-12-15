@@ -5,7 +5,8 @@ class Server():
     def __init__(self):
         pass
         
-    def serveur(self, msg):
+    def serveur(self):
+        msg = ""
         conn = None
         server_socket = None
         while msg != "kill" :
@@ -27,43 +28,23 @@ class Server():
                     while msg != "kill" and msg != "reset" and msg != "disconnect":
                         msg = conn.recv(1024).decode()
                         if msg == "cpu":
-                            cpu = str(psutil.cpu_percent())
-                            conn.send(cpu.encode())
-                            print('cpu : ', cpu)
-
+                            msg = 'cpu : ' + str(psutil.cpu_percent())
                         elif msg == "os" :
-                            os = str(sys.platform)
-                            conn.send(os.encode())
-                            print('os : ', os)
-                        
+                            msg = 'os : ' + str(sys.platform)
                         elif msg == "memory":
-                            memory = str(psutil.virtual_memory().total)
-                            conn.send(memory.encode())
-                            print ('memory : ', memory)
-                            
+                            msg = 'memory : ' + str(psutil.virtual_memory().total)
                         elif msg == "ram":
-                            ram = str(psutil.disk_usage('/'))
-                            conn.send(ram.encode())
-                            print('ram : ', ram)
-                        
+                            msg = 'ram : ' + str(psutil.disk_usage('/'))
                         elif msg == "ip":
-                            ip = socket.gethostbyname(socket.gethostname())
-                            conn.send(ip.encode())
-                            print('ip : ', ip)
-                        
+                            msg = 'ip : ' + socket.gethostbyname(socket.gethostname())
                         elif msg == "name":
-                            name = socket.gethostname()
-                            conn.send(name.encode())
-                            print('name : ', name)
-                            
+                            msg = 'name : ' + socket.gethostname()
                         elif msg == "python":
-                            python = str(sys.version)
-                            conn.send(python.encode())
-                            print('version : ', python)
-                            
-                        else :
-                            conn.send(msg.encode())
-                            print('Receive from client : ', msg)
+                            msg = 'python : ' + str(sys.version)
+                        else:
+                            msg = 'Command not found'
+                        conn.send(msg.encode())
+                        print(msg)
                     conn.close()
                     print ("Connection closed")
         server_socket.close()

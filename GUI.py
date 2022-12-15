@@ -21,20 +21,27 @@ class MainWindow(QMainWindow):
 
         block1 = QGroupBox("Commande") 
         block1.setLayout(QGridLayout())
-        cmd = QComboBox()
-        cmd.addItems(["cpu", "os", "memory", "ram", "ip", "name", "python"])
+        cpu = QPushButton("CPU")
+        os = QPushButton("OS")
+        memory = QPushButton("Memory")
+        ram = QPushButton("RAM")
+        ip = QPushButton("IP")
+        name = QPushButton("Name")
+        python = QPushButton("Python")
 
         block2 = QGroupBox("Client")
         block2.setLayout(QGridLayout())
         connect = QPushButton("Connect")
-        com = QComboBox()
-        com.addItems(["kill", "reset", "disconnect"])
-        comm = QPushButton("Envoyer")
+        message = QLineEdit("Commande")
+
 
         block3 = QGroupBox("Serveur")
         block3.setLayout(QGridLayout())
         start = QPushButton("Start")
-
+        kill = QPushButton("Kill")
+        reset = QPushButton("Reset")
+        disconnect = QPushButton("Disconnect")
+        
         block4 = QGroupBox("Historique")
         block4.setLayout(QGridLayout())
         histo = QTextEdit()
@@ -44,20 +51,13 @@ class MainWindow(QMainWindow):
         block5.setLayout(QGridLayout())
         res = QTextEdit()
         res.setEnabled(False)
-        result = QPushButton("Valider")
-
-        block6 = QGroupBox("Fichier")
-        block6.setLayout(QGridLayout())
-        fichier = QLabel("Lecture de fichier")
-        nomfichier = QLineEdit()
-        lire = QPushButton("Lire")
-
 
         ''' Constructeur '''
-        self.cmd = cmd
         self.histo = histo
         self.res = res
-        self.nomfichier = nomfichier
+        self.start = start
+        self.connect = connect
+        self.message = message
 
 
         ''' Grid blocks '''
@@ -66,72 +66,47 @@ class MainWindow(QMainWindow):
         grid.addWidget(block3, 0, 2, 3, 2)
         grid.addWidget(block4, 3, 2, 2, 2)
         grid.addWidget(block5, 5, 0, 2, 4)
-        grid.addWidget(block6, 7, 0, 2, 4)
-        
 
 
         ''' Layout blocks '''
-        block1.layout().addWidget(cmd, 1, 0)
-        block1.layout().addWidget(result, 1, 1)
+        block1.layout().addWidget(cpu, 0, 0)
+        block1.layout().addWidget(os, 0, 1)
+        block1.layout().addWidget(memory, 0, 2)
+        block1.layout().addWidget(ram, 0, 3)
+        block1.layout().addWidget(ip, 1, 0)
+        block1.layout().addWidget(name, 1, 1)
+        block1.layout().addWidget(python, 1, 2)
+        
         block2.layout().addWidget(connect, 0, 0)
-        block2.layout().addWidget(com, 2, 0)
-        block2.layout().addWidget(comm, 2, 1)
+        block2.layout().addWidget(message, 1, 0)
+
         block3.layout().addWidget(start, 0, 0)
+        block3.layout().addWidget(kill, 0, 1)
+        block3.layout().addWidget(reset, 0, 2)
+        block3.layout().addWidget(disconnect, 0, 3)
+
         block4.layout().addWidget(histo, 0, 0)
         block5.layout().addWidget(res, 0, 0)
-        block6.layout().addWidget(fichier, 0, 0)
-        block6.layout().addWidget(nomfichier, 1, 0)
-        block6.layout().addWidget(lire, 2, 0)
 
 
         ''' Actions blocks '''
-        cmd.currentIndexChanged.connect(self.__cmd_Clicked)
-        lire.clicked.connect(self.__lire_Clicked)
-        connect.clicked.connect(self.__connect_Clicked)
-        start.clicked.connect(self.__start_Clicked)
+
+        start.clicked.connect(self.__serveur_Clicked)
 
 
     ''' Fonctions blocks '''
-
-    def __lire_Clicked(self):
-        print ("lire : ", self.nomfichier.text())
-        clientlist = []
-        IP = []
-        IP.append("localhost")
-        for ip in IP:
-            print ("connexion à ", ip, "port 10958")
-            clientlist.append(Client(ip, 10958))
-        
-    def __cmd_Clicked(self):    
-        self.res.append(f"cmd : {self.cmd.currentText()}")
+    def __serveur_Clicked(self):
+        if self.start.text() == "Start":
+            self.start.setText("Stop")
+            Server.serveur()
+            print('Serveur démarré')
+        else:
+            print('Serveur arrêté')
 
     def __connect_Clicked(self):
-        clientlist = []
-        IP = []
-        IP.append("localhost")
-        for ip in IP:
-            print ("connexion à ", ip, "port 10958")
-            clientlist.append(Client(ip, 10958))
-        self.histo.append(f"connect : {ip}")
-
-    def __disconnect_Clicked(self):
-        Server.serveur(self)
-        self.histo.append("disconnect")
-        
-
-    def __reset_Clicked(self):
-        Server.serveur(self)
-        self.histo.append("reset")
-        
-
-    def __kill_Clicked(self):
-        Server.serveur(self)
-        self.histo.append("kill")
-        
-
-    def __start_Clicked(self):
-        Server.serveur(self)
-        self.histo.append("start")
+        Client.run()
+    def __message_Clicked(self):
+        Client.__envoi(self.message.text())
 
 if __name__ == '__main__':
     '''Create the Qt Application'''

@@ -11,6 +11,17 @@ class Client(threading.Thread):
         self.__port = port
         self.__sock = socket.socket()
 
+    def run(self):
+        try :
+            if (self.__connect() == 0):
+                self.__dialogue()
+        except KeyboardInterrupt:
+            print ("KeyboardInterrupt")
+            self.__sock.close()
+        except ConnectionAbortedError:
+            print ("Connection abandonnée")
+            self.__sock.close() 
+            
     def __connect(self) -> int:
         try :
             self.__sock.connect((self.__host,self.__port))
@@ -31,22 +42,19 @@ class Client(threading.Thread):
             msg = self.__sock.recv(1024).decode()
         else :
             self.__sock.close()
+            print ("Connection closed") 
+            
+    def __envoi(self):
+            msg = input("client: ")
+            self.__sock.send(msg.encode())
+            return msg
 
-    def run(self):
-        try :
-            if (self.__connect() ==0):
-                self.__dialogue()
-        except KeyboardInterrupt:
-            print ("KeyboardInterrupt")
-            self.__sock.close()
-        except ConnectionAbortedError:
-            print ("Connection abandonnée")
-            self.__sock.close()
-
-    def __disconnect(conn):
-        conn.close()
-        print ("Connection closed")
-
+    def __reception(self, conn):
+        msg =""
+        while msg != "kill" and msg != "disconnect" and msg != "reset":
+            msg = conn.recv(1024).decode()
+            print(msg)
+    
 if __name__=="__main__":
     if len(sys.argv) < 3:
         client = Client("127.0.0.1",15001)
