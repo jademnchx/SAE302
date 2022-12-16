@@ -138,15 +138,14 @@ class MainWindow(QMainWindow):
         '''Server'''
     def __kill(self):
         msg = "kill"
-        Client.__dialogue(msg)
         self.histo.append(msg)
     def __reset(self):
         msg = "reset"
-        Client.__dialogue(msg)
+
         self.histo.append(msg)
     def __disconnect(self):
         msg = "disconnect"
-        Client.__dialogue(msg)
+
         self.histo.append(msg)
         
         
@@ -179,7 +178,7 @@ class MainWindow(QMainWindow):
     #     msg = "python"
     #     Client.__dialogue(msg)
     #     self.histo.append(msg)
-        
+
         '''Fichier'''
     def __lire_Clicked(self):
         print ("lire : ", self.nomfichier.text())
