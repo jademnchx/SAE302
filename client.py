@@ -51,10 +51,10 @@ class Client(threading.Thread):
             print ("AttributeError")
             self.__sock.close()
             
-    # def __envoi(self):
-    #         msg = input("client: ")
-    #         self.__sock.send(msg.encode())
-    #         return msg
+    def envoi(self, msg):
+            msg = ""
+            self.__sock.send(msg.encode())
+            return msg
 
     # def __reception(self, conn):
     #     msg =""

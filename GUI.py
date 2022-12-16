@@ -138,14 +138,15 @@ class MainWindow(QMainWindow):
         '''Server'''
     def __kill(self):
         msg = "kill"
+        Client.envoi(msg)
         self.histo.append(msg)
     def __reset(self):
         msg = "reset"
-
+        Client.envoi(msg)
         self.histo.append(msg)
     def __disconnect(self):
         msg = "disconnect"
-
+        Client.envoi(msg)
         self.histo.append(msg)
         
         
