@@ -2,8 +2,8 @@ import socket, threading, sys
 
 class Client(threading.Thread):
     
-    host = 'localhost'
-    port = 10958
+    # host = 'localhost'
+    # port = 10958
 
     def __init__(self, host, port):
         super().__init__()
@@ -11,6 +11,32 @@ class Client(threading.Thread):
         self.__port = port
         self.__sock = socket.socket()
 
+            
+    def __connect(self) -> int:
+        try :
+            self.__sock.connect((self.__host,self.__port))
+        except ConnectionRefusedError:
+            print ("connection refused")
+            return 1
+        except ConnectionError:
+            print ("connection error")
+            return 1
+        except AttributeError:
+            print ("AttributeError")
+            return 1
+        else :
+            return 0
+        
+    def __dialogue(self):
+        msg =""
+        while msg != "kill" and msg != "disconnect" and msg != "reset":
+            msg = input("client: ")
+            self.__sock.send(msg.encode())
+            msg = self.__sock.recv(1024).decode()
+        else :
+            self.__sock.close()
+            print ("Connection closed") 
+            
     def run(self):
         try :
             if (self.__connect() == 0):
@@ -20,40 +46,21 @@ class Client(threading.Thread):
             self.__sock.close()
         except ConnectionAbortedError:
             print ("Connection abandonnée")
-            self.__sock.close() 
-            
-    def __connect(self) -> int:
-        try :
-            self.__sock.connect((self.__host,self.__port))
-        except ConnectionRefusedError:
-            print ("connection refused")
-            return -1
-        except ConnectionError:
-            print ("connection error")
-            return -1
-        else :
-            return 0
-        
-    def __dialogue(self):
-        msg = ""
-        while msg != "kill" and msg != "disconnect" and msg != "reset":
-            msg = input("client: ")
-            self.__sock.send(msg.encode())
-            msg = self.__sock.recv(1024).decode()
-        else :
             self.__sock.close()
-            print ("Connection closed") 
+        except AttributeError:
+            print ("AttributeError")
+            self.__sock.close()
             
-    def __envoi(self):
-            msg = input("client: ")
-            self.__sock.send(msg.encode())
-            return msg
+    # def __envoi(self):
+    #         msg = input("client: ")
+    #         self.__sock.send(msg.encode())
+    #         return msg
 
-    def __reception(self, conn):
-        msg =""
-        while msg != "kill" and msg != "disconnect" and msg != "reset":
-            msg = conn.recv(1024).decode()
-            print(msg)
+    # def __reception(self, conn):
+    #     msg =""
+    #     while msg != "kill" and msg != "disconnect" and msg != "reset":
+    #         msg = conn.recv(1024).decode()
+    #         print(msg)
     
 if __name__=="__main__":
     if len(sys.argv) < 3:

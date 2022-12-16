@@ -1,10 +1,7 @@
 import socket, psutil, sys
 
 class Server():
-        
-    def __init__(self):
-        pass
-        
+
     def serveur(self):
         msg = ""
         conn = None
@@ -12,7 +9,7 @@ class Server():
         while msg != "kill" :
             msg = ""
             server_socket = socket.socket()
-            server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+            # server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
             server_socket.bind(("localhost", 15001))
             server_socket.listen(1)
             print('Server waiting for connection')
@@ -26,7 +23,10 @@ class Server():
                     break
                 else :
                     while msg != "kill" and msg != "reset" and msg != "disconnect":
-                        msg = conn.recv(1024).decode()
+                        try :
+                            msg = conn.recv(1024).decode()
+                        except ConnectionAbortedError:
+                            print ("connection aborted error")
                         if msg == "cpu":
                             msg = 'cpu : ' + str(psutil.cpu_percent())
                         elif msg == "os" :
@@ -41,15 +41,15 @@ class Server():
                             msg = 'name : ' + socket.gethostname()
                         elif msg == "python":
                             msg = 'python : ' + str(sys.version)
-                        else:
-                            msg = 'Command not found'
+                        elif msg != "kill" and msg != "reset" and msg != "disconnect":
+                            msg = "Commande inconnue"
                         conn.send(msg.encode())
-                        print(msg)
+                        print (msg)
                     conn.close()
                     print ("Connection closed")
         server_socket.close()
         print ("Server closed")
-
-if __name__ == '__main__':
-    serv = Server()
-    serv.serveur()
+        
+if __name__=="__main__":
+    server = Server()
+    server.serveur()
