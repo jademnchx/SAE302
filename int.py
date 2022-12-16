@@ -8,15 +8,17 @@ class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
 
-        ''' Initialisation '''
+        # Initialisation de la fenêtre
         widget = QWidget()
         self.setCentralWidget(widget)
         self.setWindowTitle("SAE302")
-        grid = QGridLayout()
+        
+        # On utilise un QGridLayout pour placer les éléments
+        grid = QGridLayout() 
         widget.setLayout(grid)
 
 
-        ''' Blocks '''
+        # Initialisation des éléments
         block1 = QGroupBox("Commande") 
         block1.setLayout(QGridLayout())
         cpu = QPushButton("CPU")
@@ -29,7 +31,7 @@ class MainWindow(QMainWindow):
 
         block2 = QGroupBox("Client")
         block2.setLayout(QGridLayout())
-        ipserv = QLineEdit("")
+        ipserv = QLineEdit("") 
         portserv = QLineEdit("")
         connect = QPushButton("Connect")
         message = QLineEdit("")
@@ -37,7 +39,7 @@ class MainWindow(QMainWindow):
 
 
         block3 = QGroupBox("Serveur")
-        block3.setLayout(QGridLayout())
+        block3.setLayout(QGridLayout()) 
         kill = QPushButton("Kill")
         reset = QPushButton("Reset")
         disconnect = QPushButton("Disconnect")
@@ -45,7 +47,7 @@ class MainWindow(QMainWindow):
         block4 = QGroupBox("Historique")
         block4.setLayout(QGridLayout())
         histo = QTextEdit()
-        histo.setEnabled(False)
+        histo.setEnabled(False) # On ne peut pas écrire dans le QTextEdit
 
         block5 = QGroupBox("Résultat")
         block5.setLayout(QGridLayout())
@@ -58,7 +60,7 @@ class MainWindow(QMainWindow):
         nomfichier = QLineEdit()
         lire = QPushButton("Lire")
 
-        ''' Constructeur '''
+        #Constructeur de la classe Client
         self.histo = histo
         self.res = res
         self.connect = connect
@@ -69,7 +71,7 @@ class MainWindow(QMainWindow):
 
 
 
-        ''' Grid blocks '''
+        # Placement des blocks dans la fenêtre
         grid.addWidget(block1, 0, 0, 3, 2)
         grid.addWidget(block2, 3, 0, 2, 2)
         grid.addWidget(block3, 0, 2, 3, 2)
@@ -77,7 +79,7 @@ class MainWindow(QMainWindow):
         grid.addWidget(block5, 5, 0, 2, 4)
         grid.addWidget(block6, 7, 0, 2, 4)
 
-        ''' Layout blocks '''
+        # Placement des éléments dans les blocks
         block1.layout().addWidget(cpu, 0, 0)
         block1.layout().addWidget(os, 0, 1)
         block1.layout().addWidget(memory, 0, 2)
@@ -105,25 +107,27 @@ class MainWindow(QMainWindow):
         block6.layout().addWidget(lire, 2, 0)
 
 
-        ''' Actions blocks '''
-        # cpu.clicked.connect(self.__cpu)
-        # os.clicked.connect(self.__os)
-        # memory.clicked.connect(self.__memory)
-        # ram.clicked.connect(self.__ram)
-        # ip.clicked.connect(self.__ip)
-        # name.clicked.connect(self.__name)
-        # python.clicked.connect(self.__python)
+        # Connection des boutons aux fonctions
+        
+        cpu.clicked.connect(self.__cpu)
+        os.clicked.connect(self.__os)
+        memory.clicked.connect(self.__memory)
+        ram.clicked.connect(self.__ram)
+        ip.clicked.connect(self.__ip)
+        name.clicked.connect(self.__name)
+        python.clicked.connect(self.__python)
 
         kill.clicked.connect(self.__kill)
         reset.clicked.connect(self.__reset)
         disconnect.clicked.connect(self.__disconnect)
 
-        # send.clicked.connect(Client.__dialogue)
-        connect.clicked.connect(self.__connect)
+        send.clicked.connect(Client.__dialogue)
+        connect.clicked.connect(self.__connect) 
         lire.clicked.connect(self.__lire_Clicked)
 
 
-        '''Client'''
+    # Block client
+    # Connection du client au serveur
     def __connect(self):
         clientlist = []
         IP = []
@@ -135,52 +139,53 @@ class MainWindow(QMainWindow):
         self.connect.setEnabled(False)
         
          
-        '''Server'''
+    #Block serveur
     def __kill(self):
         msg = "kill"
-        Client.envoi(msg)
+        Client.__dialogue(msg)
         self.histo.append(msg)
     def __reset(self):
         msg = "reset"
-        Client.envoi(msg)
+        Client.__dialogue(msg)
         self.histo.append(msg)
     def __disconnect(self):
         msg = "disconnect"
-        Client.envoi(msg)
+        Client.__dialogue(msg)
         self.histo.append(msg)
         
         
-        ''' Commandes'''
-    # def __cpu(self):
-    #     msg = "cpu"
-    #     Client.__dialogue(msg)
-    #     self.histo.append(msg)
-    # def __os(self):
-    #     msg = "os"
-    #     Client.__dialogue(msg)
-    #     self.histo.append(msg)
-    # def __memory(self):
-    #     msg = "memory"
-    #     Client.__dialogue(msg)
-    #     self.histo.append(msg)
-    # def __ram(self):
-    #     msg = "ram"
-    #     Client.__dialogue(msg)
-    #     self.histo.append(msg)
-    # def __ip(self):
-    #     msg = "ip"
-    #     Client.__dialogue(msg)
-    #     self.histo.append(msg)
-    # def __name(self):
-    #     msg = "name"
-    #     Client.__dialogue(msg)
-    #     self.histo.append(msg)
-    # def __python(self):
-    #     msg = "python"
-    #     Client.__dialogue(msg)
-    #     self.histo.append(msg)
+    #Block commande
+    def __cpu(self):
+        msg = "cpu"
+        Client.__dialogue(msg)
+        self.histo.append(msg)
+    def __os(self):
+        msg = "os"
+        Client.__dialogue(msg)
+        self.histo.append(msg)
+    def __memory(self):
+        msg = "memory"
+        Client.__dialogue(msg)
+        self.histo.append(msg)
+    def __ram(self):
+        msg = "ram"
+        Client.__dialogue(msg)
+        self.histo.append(msg)
+    def __ip(self):
+        msg = "ip"
+        Client.__dialogue(msg)
+        self.histo.append(msg)
+    def __name(self):
+        msg = "name"
+        Client.__dialogue(msg)
+        self.histo.append(msg)
+    def __python(self):
+        msg = "python"
+        Client.__dialogue(msg)
+        self.histo.append(msg)
 
-        '''Fichier'''
+    # Block fichier
+    # Mets les données rentrées dans la liste
     def __lire_Clicked(self):
         print ("lire : ", self.nomfichier.text())
         clientlist = []
@@ -191,7 +196,7 @@ class MainWindow(QMainWindow):
             clientlist.append(Client(ip, 10958))
 
 if __name__ == '__main__':
-    '''Create the Qt Application'''
+    # Création de l'application
     app = QApplication(sys.argv)
     window = MainWindow()
     window.show()
